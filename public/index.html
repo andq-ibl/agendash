@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Agendash</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/dashboard.css" rel="stylesheet" />
   </head>
 
   <body>
@@ -18,11 +18,15 @@
           <h1 class="page-title"></h1>
           <div class="form-group">
             <label for="overviewFilter">Filter by name</label>
-            <input type="text" class="overview-filter form-control">
+            <input type="text" class="overview-filter form-control" />
           </div>
           <div class="form-group">
             <label for="overviewFilter">Refresh interval (seconds)</label>
-            <input type="number" value="2" class="refresh-interval form-control">
+            <input
+              type="number"
+              value="2"
+              class="refresh-interval form-control"
+            />
           </div>
         </div>
         <div id="job-overview-list"></div>
@@ -35,9 +39,15 @@
               <small class="active-state"></small>
             </h2>
             <ul id="select-jobs" class="nav nav-pills">
-              <li role="presentation"><a role="button" data-action="schedule-job">Schedule job</a></li>
-              <li role="presentation"><a role="button" data-action="select-all">Select all</a></li>
-              <li role="presentation"><a role="button" data-action="select-none">Select none</a></li>
+              <li role="presentation">
+                <a role="button" data-action="schedule-job">Schedule job</a>
+              </li>
+              <li role="presentation">
+                <a role="button" data-action="select-all">Select all</a>
+              </li>
+              <li role="presentation">
+                <a role="button" data-action="select-none">Select none</a>
+              </li>
             </ul>
             <div class="clearfix"></div>
           </div>
@@ -47,6 +57,7 @@
                 <tr>
                   <th>Status</th>
                   <th>Name</th>
+                  <th>Id</th>
                   <th>Last run started</th>
                   <th>Next run starts</th>
                   <th>Last finished</th>
@@ -58,9 +69,23 @@
           </div>
         </div>
         <div id="details-pane">
-          <h2 class="sub-header"><span class="number-selected">0</span> <small>selected</small></h2>
-          <button type="button" class="btn btn-danger btn-xs" data-action="requeue-jobs">Requeue selected</button>
-          <button type="button" class="btn btn-danger btn-xs pull-right" data-action="delete-jobs">Delete selected</button>
+          <h2 class="sub-header">
+            <span class="number-selected">0</span> <small>selected</small>
+          </h2>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs"
+            data-action="requeue-jobs"
+          >
+            Requeue selected
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger btn-xs pull-right"
+            data-action="delete-jobs"
+          >
+            Delete selected
+          </button>
           <hr />
           <div id="details-list"></div>
         </div>
@@ -69,23 +94,27 @@
           <hr />
           <div class="form-group">
             <label>Job name</label>
-            <input type="text" class="job-name form-control">
+            <input type="text" class="job-name form-control" />
           </div>
           <div class="form-group">
             <label>Schedule</label>
-            <input type="text" class="job-schedule form-control">
+            <input type="text" class="job-schedule form-control" />
           </div>
           <div class="form-group">
             <label>Repeat every</label>
-            <input type="text" class="job-repeat-every form-control">
+            <input type="text" class="job-repeat-every form-control" />
           </div>
           <div class="form-group">
             <label>Job data (json)</label>
             <textarea class="job-data form-control">{}</textarea>
           </div>
           <div class="form-group">
-            <span class="btn btn-default btn-success" data-action="save">Save</span>
-            <span class="btn btn-default btn-warning" data-action="cancel">Cancel</span>
+            <span class="btn btn-default btn-success" data-action="save"
+              >Save</span
+            >
+            <span class="btn btn-default btn-warning" data-action="cancel"
+              >Cancel</span
+            >
           </div>
         </div>
       </div>
@@ -129,6 +158,9 @@
       <td>
         <%- job.name %>
       </td>
+      <td>
+        <%- job._id%>
+      </td>
       <td><% if (job.lastRunAt) { %><time datetime="<%- moment(job.lastRunAt).toISOString() %>"><%- moment(job.lastRunAt).fromNow() %></time><% } %></td>
       <td><% if (job.nextRunAt) { %><time datetime="<%- moment(job.nextRunAt).toISOString() %>"><%- moment(job.nextRunAt).fromNow() %></time><% } %></td>
       <td><% if (job.lastFinishedAt) { %><time datetime="<%- moment(job.lastFinishedAt).toISOString() %>"><%- moment(job.lastFinishedAt).fromNow() %></time><% } %></td>
@@ -139,7 +171,7 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h3 class="panel-title"><%- job.name %></h3>
+          <h3 class="panel-title"><%- job.name %> - <%- job._id %></h3>
           <% if (repeating) { %><span class="label label-info"><i class="glyphicon glyphicon-repeat"></i> <%- job.repeatInterval %></span><% } %>
           <% if (scheduled) { %><span class="label label-info">Scheduled</span><% } %>
           <% if (queued) { %><span class="label label-primary">Queued</span><% } %>
@@ -174,6 +206,5 @@
     <script src="js/backbone-min.js"></script>
     <script src="js/moment.min.js"></script>
     <script src="js/main.js"></script>
-
   </body>
 </html>
